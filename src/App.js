@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
+import FinalPreview from "./preview";
+import "bootstrap/dist/css/bootstrap.css";
+import Basic from "./Components/Basic";
+import MyContact from "./Components/Coontact";
+import MyEducation from "./Components/Education";
+import MyExperience from "./Components/Experience";
+import MySkill from "./Components/Skill";
+import MyProject from "./Components/Project";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HashRouter>
+      <Routes>
+        <Route exact path="/basic" element={<Basic />} />
+        <Route exact path="/contact" element={<MyContact />} />
+        <Route exact path="/education" element={<MyEducation />} />
+        <Route exact path="/experience" element={<MyExperience />} />
+        <Route exact path="/project" element={<MyProject />} />
+        <Route exact path="/skill" element={<MySkill />} />
+        <Route exact path="/" element={<FinalPreview />} />
+      </Routes>
+    </HashRouter>
   );
 }
 
