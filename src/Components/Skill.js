@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import LeftNav from "../navigation";
+import { useDispatch, useSelector } from "react-redux";
 
-function MySkill() {
+function Skill() {
+  // Using Redux to get any existing skill data
+  let skilldata = useSelector((state) => state.MySkill);
+
+  // Local state to store the skill input
+  let [skills, setSkills] = useState(skilldata.skills);
+
+  // Dispatch function to update Redux store
+  let dispatch = useDispatch();
+
+  // Save function that dispatches the action to Redux
+  const save = () => {
+    let skillInfo = {
+      skills: skills,
+    };
+
+    // Dispatch action with type "skill" to update the store
+    let actionData = { type: "skill", info: skillInfo };
+    dispatch(actionData);
+
+    alert("Your skill details have been saved successfully!");
+  };
+
   return (
     <div className="container mt-5">
       <div className="row">
@@ -23,13 +46,13 @@ function MySkill() {
                   <label htmlFor="skillDetails" className="form-label">
                     Skills
                   </label>
-                  <textarea className="form-control" rows="3" maxLength="200" placeholder="Enter details about your skills"></textarea>
+                  <textarea className="form-control" rows="3" maxLength="200" placeholder="Enter details about your skills" onChange={(e) => setSkills(e.target.value)} value={skills} />
                 </div>
               </div>
             </div>
 
             <div className="card-footer text-center bg-secondary d-flex justify-content-center align-items-center">
-              <button type="submit" className="btn btn-danger">
+              <button type="button" className="btn btn-danger" onClick={save}>
                 Save & Continue
               </button>
             </div>
@@ -40,4 +63,4 @@ function MySkill() {
   );
 }
 
-export default MySkill;
+export default Skill;

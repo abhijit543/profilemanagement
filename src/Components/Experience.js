@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import LeftNav from "../navigation";
+import { useDispatch, useSelector } from "react-redux";
 
-function MyExperience() {
+function Experience() {
+  // Retrieving experience data from Redux store
+  let experienceData = useSelector((state) => state.MyExperience);
+
+  // Setting up state for form inputs
+  let [totalExperience, setTotalExperience] = useState(experienceData.totalExperience);
+  let [aboutExperience, setAboutExperience] = useState(experienceData.aboutExperience);
+
+  let dispatch = useDispatch();
+
+  // Save experience data to Redux store
+  const save = () => {
+    let experienceInfo = {
+      totalExperience,
+      aboutExperience,
+    };
+
+    let myData = { type: "experience", info: experienceInfo };
+    dispatch(myData);
+
+    alert("Your experience details have been saved successfully!");
+  };
+
   return (
     <div className="container mt-5">
       <div className="row">
@@ -22,19 +45,26 @@ function MyExperience() {
                   <label htmlFor="totalExperience" className="form-label">
                     Total Experience (Years)
                   </label>
-                  <input type="number" className="form-control" placeholder="Enter total experience" />
+                  <input type="number" className="form-control" placeholder="Enter total experience" value={totalExperience} onChange={(e) => setTotalExperience(e.target.value)} />
                 </div>
                 <div className="col-xl-6 mb-3">
                   <label htmlFor="aboutExperience" className="form-label">
                     Experience Details
                   </label>
-                  <textarea className="form-control" rows="3" maxLength="200" placeholder="Details about your experience"></textarea>
+                  <textarea
+                    className="form-control"
+                    rows="3"
+                    maxLength="200"
+                    placeholder="Details about your experience"
+                    value={aboutExperience}
+                    onChange={(e) => setAboutExperience(e.target.value)}
+                  ></textarea>
                 </div>
               </div>
             </div>
 
-            <div className="card-footer bg-secondary text-center d-flex justify-content-center align-items-center">
-              <button type="submit" className="btn btn-danger">
+            <div className="card-footer bg-secondary text-white d-flex justify-content-center align-items-center">
+              <button type="submit" className="btn btn-danger" onClick={save}>
                 Save & Continue
               </button>
             </div>
@@ -45,4 +75,4 @@ function MyExperience() {
   );
 }
 
-export default MyExperience;
+export default Experience;
