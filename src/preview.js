@@ -74,7 +74,7 @@ const FinalPreview = () => {
                   </tr>
                   <tr>
                     <td>Permanent Address</td>
-                    <td>{contactdata.peraddress}</td>
+                    <td>{contactdata.permaddress}</td>
                   </tr>
                   <tr>
                     <td>Reference Address</td>
@@ -103,19 +103,19 @@ const FinalPreview = () => {
                   </tr>
                   <tr>
                     <td>PAssing Year</td>
-                    <td>{contactdata.passingYear}</td>
+                    <td>{educationdata.passingYear}</td>
                   </tr>
                   <tr>
                     <td>Grade</td>
-                    <td>{contactdata.grade}</td>
+                    <td>{educationdata.grade}</td>
                   </tr>
                   <tr>
                     <td>College</td>
-                    <td>{contactdata.college}</td>
+                    <td>{educationdata.college}</td>
                   </tr>
                   <tr>
                     <td>City</td>
-                    <td>{contactdata.city}</td>
+                    <td>{educationdata.city}</td>
                   </tr>
                 </tbody>
               </table>
