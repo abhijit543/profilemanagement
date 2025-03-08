@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LeftNav from "../navigation";
 import { useDispatch, useSelector } from "react-redux";
-
+import swal from "sweetalert";
 function Project() {
   // Retrieve existing project data from Redux state
   let projectData = useSelector((state) => state.MyProject);
@@ -25,7 +25,7 @@ function Project() {
 
     // Dispatch the action to save project info to Redux
     dispatch({ type: "project", info: projectInfo });
-    alert("Your project details have been saved successfully!");
+    swal("Save Success", "Your Project details have been saved successfully!", "success");
   };
 
   return (

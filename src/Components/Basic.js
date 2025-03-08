@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LeftNav from "../navigation";
 import { useDispatch, useSelector } from "react-redux";
+import swal from "sweetalert";
 
 function Basic() {
   let basicdata = useSelector((state) => state.MyBasic);
@@ -22,7 +23,7 @@ function Basic() {
     };
     let mydata = { type: "basic", info: userinfo };
     dispatch(mydata);
-    alert("your basic details save successfully .....");
+    swal("Save Success", "your basic details save successfully .....", "success");
   };
   return (
     <div className="container mt-5">

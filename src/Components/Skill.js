@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LeftNav from "../navigation";
 import { useDispatch, useSelector } from "react-redux";
-
+import swal from "sweetalert";
 function Skill() {
   // Using Redux to get any existing skill data
   let skilldata = useSelector((state) => state.MySkill);
@@ -22,7 +22,7 @@ function Skill() {
     let actionData = { type: "skill", info: skillInfo };
     dispatch(actionData);
 
-    alert("Your skill details have been saved successfully!");
+    swal("Save Success", "Your skill details have been saved successfully!", "success");
   };
 
   return (

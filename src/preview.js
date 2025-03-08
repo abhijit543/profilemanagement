@@ -19,29 +19,29 @@ const FinalPreview = () => {
               <table className="table">
                 <tbody>
                   <tr>
-                    <td>Fullname</td>
+                    <th>Fullname</th>
                     <td>{basicdata.fullname}</td>
                   </tr>
                   <tr>
-                    <td>Date of Birth</td>
+                    <th>Date of Birth</th>
                     <td>{basicdata.dob}</td>
                   </tr>
                   <tr>
-                    <td>Gender</td>
+                    <th>Gender</th>
                     <td>{basicdata.gender}</td>
                   </tr>
                   <tr>
-                    <td>Married</td>
+                    <th>Married</th>
                     <td>{basicdata.married}</td>
                   </tr>
                   <tr>
-                    <td>Profile</td>
+                    <th>Profile</th>
                     <td>{basicdata.profilestatus}</td>
                   </tr>
                   <tr>
-                    <td colSpan={2}>
+                    <th colSpan={2}>
                       <b>About</b>
-                    </td>
+                    </th>
                     <td>{basicdata.about}</td>
                   </tr>
                 </tbody>
@@ -61,24 +61,24 @@ const FinalPreview = () => {
               <table className="table">
                 <tbody>
                   <tr>
-                    <td>Mobile</td>
+                    <th>Mobile</th>
                     <td>{contactdata.mobile}</td>
                   </tr>
                   <tr>
-                    <td>Email</td>
+                    <th>Email</th>
                     <td>{contactdata.email}</td>
                   </tr>
                   <tr>
-                    <td>Local Address</td>
+                    <th>Local Address</th>
                     <td>{contactdata.locaddress}</td>
                   </tr>
                   <tr>
-                    <td>Permanent Address</td>
+                    <th>Permanent Address</th>
                     <td>{contactdata.permaddress}</td>
                   </tr>
                   <tr>
-                    <td>Reference Address</td>
-                    <td>{contactdata.refaddress}</td>
+                    <th>Reference Address</th>
+                    <th>{contactdata.refaddress}</th>
                   </tr>
                 </tbody>
               </table>
@@ -94,11 +94,10 @@ const FinalPreview = () => {
           <div className="card border-0 shadow-lg">
             <div className="card-header bg-info text-white">Education Details</div>
             <div className="card-body">
-              {" "}
               <table className="table">
                 <tbody>
                   <tr>
-                    <td>Higher Education</td>
+                    <th>Higher Education</th>
                     <td>{educationdata.highestEducation}</td>
                   </tr>
                   <tr>

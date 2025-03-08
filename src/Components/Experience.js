@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LeftNav from "../navigation";
 import { useDispatch, useSelector } from "react-redux";
-
+import swal from "sweetalert";
 function Experience() {
   // Retrieving experience data from Redux store
   let experienceData = useSelector((state) => state.MyExperience);
@@ -22,7 +22,7 @@ function Experience() {
     let myData = { type: "experience", info: experienceInfo };
     dispatch(myData);
 
-    alert("Your experience details have been saved successfully!");
+    swal("Save Success", "Your experience details have been saved successfully!", "success");
   };
 
   return (
