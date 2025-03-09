@@ -9,20 +9,45 @@ function Experience() {
   // Setting up state for form inputs
   let [totalExperience, setTotalExperience] = useState(experienceData.totalExperience);
   let [aboutExperience, setAboutExperience] = useState(experienceData.aboutExperience);
+  let [errors, setErrors] = useState({});
+  const validate = () => {
+    let storeError = {};
 
+    if (!totalExperience.trim()) {
+      storeError.totalExperience = "Please enter your total experience";
+    } else {
+      let experienceValue = parseInt(totalExperience);
+      if (isNaN(experienceValue) || experienceValue < 0 || experienceValue > 50) {
+        storeError.totalExperience = "Experience must be between 0 and 50 years";
+      }
+    }
+
+    if (!aboutExperience.trim()) {
+      storeError.aboutExperience = "Please enter details about your experience";
+    } else if (aboutExperience.length < 10) {
+      storeError.aboutExperience = "Experience details must be at least 10 characters long";
+    }
+
+    setErrors(storeError);
+    return Object.keys(storeError).length === 0;
+  };
   let dispatch = useDispatch();
 
   // Save experience data to Redux store
   const save = () => {
-    let experienceInfo = {
-      totalExperience,
-      aboutExperience,
-    };
+    if (!validate()) {
+      return;
+    } else {
+      let experienceInfo = {
+        totalExperience,
+        aboutExperience,
+      };
 
-    let myData = { type: "experience", info: experienceInfo };
-    dispatch(myData);
+      let myData = { type: "experience", info: experienceInfo };
+      dispatch(myData);
 
-    swal("Save Success", "Your experience details have been saved successfully!", "success");
+      swal("Save Success", "Your experience details have been saved successfully!", "success");
+    }
   };
 
   return (
@@ -46,6 +71,7 @@ function Experience() {
                     Total Experience (Years)
                   </label>
                   <input type="number" className="form-control" placeholder="Enter total experience" value={totalExperience} onChange={(e) => setTotalExperience(e.target.value)} />
+                  {errors.totalExperience && <div className="text-danger">{errors.totalExperience}</div>}
                 </div>
                 <div className="col-xl-6 mb-3">
                   <label htmlFor="aboutExperience" className="form-label">
@@ -59,6 +85,7 @@ function Experience() {
                     value={aboutExperience}
                     onChange={(e) => setAboutExperience(e.target.value)}
                   ></textarea>
+                  {errors.aboutExperience && <div className="text-danger">{errors.aboutExperience}</div>}
                 </div>
               </div>
             </div>

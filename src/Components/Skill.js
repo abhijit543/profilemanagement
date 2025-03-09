@@ -8,21 +8,27 @@ function Skill() {
 
   // Local state to store the skill input
   let [skills, setSkills] = useState(skilldata.skills);
+  let [skillserr, setSkillerr] = useState("");
 
   // Dispatch function to update Redux store
   let dispatch = useDispatch();
 
   // Save function that dispatches the action to Redux
   const save = () => {
-    let skillInfo = {
-      skills: skills,
-    };
+    if (skills === "") {
+      setSkillerr("please input some skill");
+    } else {
+      setSkillerr("");
+      let skillInfo = {
+        skills: skills,
+      };
 
-    // Dispatch action with type "skill" to update the store
-    let actionData = { type: "skill", info: skillInfo };
-    dispatch(actionData);
+      // Dispatch action with type "skill" to update the store
+      let actionData = { type: "skill", info: skillInfo };
+      dispatch(actionData);
 
-    swal("Save Success", "Your skill details have been saved successfully!", "success");
+      swal("Save Success", "Your skill details have been saved successfully!", "success");
+    }
   };
 
   return (
@@ -48,6 +54,7 @@ function Skill() {
                   </label>
                   <textarea className="form-control" rows="3" maxLength="200" placeholder="Enter details about your skills" onChange={(e) => setSkills(e.target.value)} value={skills} />
                 </div>
+                {skillserr && <div className="text-danger">{skillserr}</div>}
               </div>
             </div>
 

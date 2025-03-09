@@ -11,23 +11,49 @@ function Project() {
   let [projectDetails, setProjectDetails] = useState(projectData.projectDetails);
   let [technology, setTechnology] = useState(projectData.technology);
   let [liveUrl, setLiveUrl] = useState(projectData.liveUrl);
+  let [errors, setErrors] = useState({});
 
   let dispatch = useDispatch();
+  const validate = () => {
+    let newerrors = {};
+    if (projects.trim() === "") {
+      newerrors.projects = "Please enter project name";
+    } else if (projects.length < 6) {
+      newerrors.projects = "Project name should be more than 6 letters";
+    }
+    if (projectDetails.trim() === "") {
+      newerrors.projectDetails = "Please enter project details";
+    }
+    if (technology.trim() === "") {
+      newerrors.technology = "Please enter technology";
+    }
+    if (liveUrl.trim() === "") {
+      newerrors.liveUrl = "Please enter your domain";
+    }
+    if (liveUrl.trim() === "") {
+      newerrors.liveUrl = "Please enter your domain";
+    }
+    setErrors(newerrors);
+    return Object.keys(newerrors).length === 0;
+  };
 
   // Save the project data to Redux store
   const save = () => {
-    let projectInfo = {
-      projects,
-      projectDetails,
-      technology,
-      liveUrl,
-    };
+    if (!validate()) {
+      return;
+    } else {
+      let projectInfo = {
+        projects,
+        projectDetails,
+        technology,
+        liveUrl,
+      };
 
-    // Dispatch the action to save project info to Redux
-    dispatch({ type: "project", info: projectInfo });
-    swal("Save Success", "Your Project details have been saved successfully!", "success");
+      // Dispatch the action to save project info to Redux
+      dispatch({ type: "project", info: projectInfo });
+      swal("Save Success", "Your Project details have been saved successfully!", "success");
+    }
   };
-
   return (
     <div className="container mt-5">
       <div className="row">
@@ -47,12 +73,14 @@ function Project() {
                     Projects
                   </label>
                   <input type="text" className="form-control" placeholder="Enter your Projects" value={projects} onChange={(e) => setProjects(e.target.value)} />
+                  {errors.projects && <div className="text-danger">{errors.projects}</div>}
                 </div>
                 <div className="col-xl-6 mb-3">
                   <label htmlFor="projectDetails" className="form-label">
                     Project Details
                   </label>
                   <textarea className="form-control" rows="3" maxLength="200" placeholder="Provide Project Details" value={projectDetails} onChange={(e) => setProjectDetails(e.target.value)} />
+                  {errors.projectDetails && <div className="text-danger">{errors.projectDetails}</div>}
                 </div>
               </div>
 
@@ -62,12 +90,14 @@ function Project() {
                     Technology Used
                   </label>
                   <textarea className="form-control" rows="3" maxLength="200" placeholder="Provide tech used" value={technology} onChange={(e) => setTechnology(e.target.value)} />
+                  {errors.technology && <div className="text-danger">{errors.technology}</div>}
                 </div>
                 <div className="col-xl-6 mb-3">
                   <label htmlFor="liveUrl" className="form-label">
                     Any Live URL
                   </label>
                   <input type="text" className="form-control" placeholder="Enter your live URL" value={liveUrl} onChange={(e) => setLiveUrl(e.target.value)} />
+                  {errors.liveUrl && <div className="text-danger">{errors.liveUrl}</div>}
                 </div>
               </div>
             </div>

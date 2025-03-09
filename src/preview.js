@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import swal from "sweetalert";
 const FinalPreview = () => {
   let basicdata = useSelector((state) => state.MyBasic);
 
@@ -9,6 +10,54 @@ const FinalPreview = () => {
   let projectdata = useSelector((state) => state.MyProject);
 
   let experiencedata = useSelector((state) => state.MyExperience);
+  // const save1 = () => {
+  //   let mydata = {
+  //     basic: basicdata,
+  //     education: educationdata,
+  //     contact: contactdata,
+  //     skill: skilldata,
+  //     project: projectdata,
+  //     exp: experiencedata,
+  //   };
+  //   let url = "http://localhost:1234/userapi";
+  //   let postdata = {
+  //     headers: { "Content-Type": "application/json" },
+  //     method: "POST",
+  //     body: JSON.stringify(mydata), // Ensure `mydata` is defined
+  //   };
+  //   fetch(url, postdata)
+  //     .then((response) => response.json())
+  //     .then((info) => {
+  //       swal("Details Submitted", "Your Details Submitted to server", "success");
+  //       setTimeout(() => {
+  //         window.location.reload();
+  //       }, 3000);
+  //     });
+  // };
+  const save = () => {
+    let mydata = {
+      basic: basicdata,
+      education: educationdata,
+      contact: contactdata,
+      skill: skilldata,
+      project: projectdata,
+      exp: experiencedata,
+    };
+    let url = "https://cybotrix.com/liveapi/api/save";
+    let postdata = {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+      body: JSON.stringify({ details: mydata }), // Ensure `mydata` is defined
+    };
+    fetch(url, postdata)
+      .then((response) => response.text())
+      .then((info) => {
+        swal("Details Submitted", "ypur profile submitted, we will contact you soon.........", "success");
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      });
+  };
   return (
     <div className="container mt-4">
       <div className="row">
@@ -101,19 +150,19 @@ const FinalPreview = () => {
                     <td>{educationdata.highestEducation}</td>
                   </tr>
                   <tr>
-                    <td>PAssing Year</td>
+                    <th>PAssing Year</th>
                     <td>{educationdata.passingYear}</td>
                   </tr>
                   <tr>
-                    <td>Grade</td>
+                    <th>Grade</th>
                     <td>{educationdata.grade}</td>
                   </tr>
                   <tr>
-                    <td>College</td>
+                    <th>College</th>
                     <td>{educationdata.college}</td>
                   </tr>
                   <tr>
-                    <td>City</td>
+                    <th>City</th>
                     <td>{educationdata.city}</td>
                   </tr>
                 </tbody>
@@ -130,11 +179,10 @@ const FinalPreview = () => {
           <div className="card border-0 shadow-lg">
             <div className="card-header bg-info text-white">Skill Details</div>
             <div className="card-body">
-              {" "}
               <table className="table">
                 <tbody>
                   <tr>
-                    <td>Skill</td>
+                    <th>Skill</th>
                     <td>{skilldata.skills}</td>
                   </tr>
                 </tbody>
@@ -154,19 +202,19 @@ const FinalPreview = () => {
               <table className="table">
                 <tbody>
                   <tr>
-                    <td>projects</td>
+                    <th>projects</th>
                     <td>{projectdata.projects}</td>
                   </tr>
                   <tr>
-                    <td>Project Details</td>
+                    <th>Project Details</th>
                     <td>{projectdata.projectDetails}</td>
                   </tr>
                   <tr>
-                    <td>Technology</td>
+                    <th>Technology</th>
                     <td>{projectdata.technology}</td>
                   </tr>
                   <tr>
-                    <td>Live URL</td>
+                    <th>Live URL</th>
                     <td>{projectdata.liveUrl}</td>
                   </tr>
                 </tbody>
@@ -183,15 +231,14 @@ const FinalPreview = () => {
           <div className="card border-0 shadow-lg">
             <div className="card-header bg-info text-white">Experience Details</div>
             <div className="card-body">
-              {" "}
               <table className="table">
                 <tbody>
                   <tr>
-                    <td>totalExperience</td>
+                    <th>totalExperience</th>
                     <td>{experiencedata.totalExperience}</td>
                   </tr>
                   <tr>
-                    <td>Experience details</td>
+                    <th>Experience details</th>
                     <td>{experiencedata.aboutExperience}</td>
                   </tr>
                 </tbody>
@@ -205,7 +252,9 @@ const FinalPreview = () => {
           </div>
         </div>
         <div className="col-xl-12 text-center">
-          <button className="btn btn-danger">Submit My details</button>
+          <button className="btn btn-danger" onClick={save}>
+            Submit My details
+          </button>
         </div>
       </div>
     </div>
