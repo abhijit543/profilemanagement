@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import FinalPreview from "./preview";
 import "bootstrap/dist/css/bootstrap.css";
 import Basic from "./Components/Basic";
@@ -10,7 +10,7 @@ import Education from "./Components/Education";
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
         <div className="container">
           <Link className="navbar-brand">
@@ -76,7 +76,7 @@ function App() {
         <Route exact path="/skill" element={<Skill />} />
         <Route exact path="/" element={<FinalPreview />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

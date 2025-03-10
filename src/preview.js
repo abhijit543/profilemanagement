@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import swal from "sweetalert";
+import { useState } from "react";
 const FinalPreview = () => {
   let basicdata = useSelector((state) => state.MyBasic);
 
@@ -34,7 +35,65 @@ const FinalPreview = () => {
   //       }, 3000);
   //     });
   // };
-  const save = () => {
+  let [errors, setErrors] = useState({});
+  const validate = () => {
+    let finalValidate = {};
+    //Basic data validation
+    if (basicdata.fullname.trim() === "") {
+      finalValidate.fullname = "Full Name is required";
+    }
+    if (basicdata.dob.trim() === "") {
+      finalValidate.dob = "Date of Birth is required";
+    }
+    if (basicdata.gender.trim() === "") {
+      finalValidate.gender = "Gender is required";
+    }
+    if (basicdata.married.trim() === "") {
+      finalValidate.married = "Martial status is required";
+    }
+    if (basicdata.profilestatus.trim() === "") {
+      finalValidate.profilestatus = " Status is required";
+    }
+
+    if (basicdata.about.trim() === "") {
+      finalValidate.about = "Tell us something about yourself";
+    }
+    // Contact Data Validation
+    if (!contactdata.mobile?.trim()) finalValidate.mobile = "Mobile number is required";
+    if (!contactdata.email?.trim()) finalValidate.email = "Email is required";
+    if (!contactdata.permaddress?.trim()) finalValidate.permaddress = "Permanent address is required";
+    if (!contactdata.locaddress?.trim()) finalValidate.contactdata = "Local Address is required";
+    if (!contactdata.refaddress?.trim()) finalValidate.refaddress = "Reference address is required";
+
+    // Education Data Validation
+    if (!educationdata.highestEducation?.trim()) finalValidate.highestEducation = "Highest education is required";
+    if (!educationdata.passingYear?.trim()) finalValidate.passingYear = "Passing year is required";
+    if (!educationdata.grade?.trim()) finalValidate.grade = "Grade is required";
+    if (!educationdata.college?.trim()) finalValidate.college = "College Name is required";
+    if (!educationdata.city?.trim()) finalValidate.city = "city name is required";
+    // Skill Data Validation
+    if (!skilldata.skills?.trim()) finalValidate.skills = "At least one skill is required";
+    //Project Data Validation
+    if (!projectdata.projects?.trim()) finalValidate.projects = "Project Name is required";
+    if (!projectdata.projectDetails?.trim()) finalValidate.projectDetails = "Project Details is required";
+    if (!projectdata.technology?.trim()) finalValidate.technology = "Please Mention any technology used";
+    if (!projectdata.liveUrl?.trim()) finalValidate.liveUrl = "Please mention your Hoisted URL";
+
+    //Experience Validation
+    if (!experiencedata.totalExperience?.trim()) finalValidate.totalExperience = "Total experience is required";
+    if (!experiencedata.aboutExperience?.trim()) finalValidate.aboutExperience = "Tell Something about experience";
+
+    setErrors(finalValidate);
+    if (Object.keys(finalValidate).length > 0) {
+      swal("Validation Error", "Please Fill all the required Fields!", "errors.png");
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const save = async () => {
+    if (!validate()) return;
+
     let mydata = {
       basic: basicdata,
       education: educationdata,
@@ -43,21 +102,30 @@ const FinalPreview = () => {
       project: projectdata,
       exp: experiencedata,
     };
+
     let url = "https://cybotrix.com/liveapi/api/save";
     let postdata = {
       headers: { "Content-Type": "application/json" },
       method: "POST",
-      body: JSON.stringify({ details: mydata }), // Ensure `mydata` is defined
+      body: JSON.stringify({ details: mydata }),
     };
-    fetch(url, postdata)
-      .then((response) => response.text())
-      .then((info) => {
-        swal("Details Submitted", "ypur profile submitted, we will contact you soon.........", "success");
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
-      });
+
+    try {
+      const response = await fetch(url, postdata);
+      if (!response.ok) throw new Error("Network response was not ok");
+
+      await response.text(); // No need to store it in a variable
+
+      swal("Details Submitted", "Your profile has been submitted successfully!", "success");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      swal("Error", "Something went wrong while submitting!", "error");
+    }
   };
+
   return (
     <div className="container mt-4">
       <div className="row">
@@ -69,29 +137,29 @@ const FinalPreview = () => {
                 <tbody>
                   <tr>
                     <th>Fullname</th>
-                    <td>{basicdata.fullname}</td>
+                    <td>{basicdata.fullname || <span className="text-danger">{errors.fullname}</span>}</td>
                   </tr>
                   <tr>
                     <th>Date of Birth</th>
-                    <td>{basicdata.dob}</td>
+                    <td>{basicdata.dob || <span className="text-danger">{errors.dob}</span>}</td>
                   </tr>
                   <tr>
                     <th>Gender</th>
-                    <td>{basicdata.gender}</td>
+                    <td>{basicdata.gender || <span className="text-danger">{errors.gender}</span>} </td>
                   </tr>
                   <tr>
                     <th>Married</th>
-                    <td>{basicdata.married}</td>
+                    <td>{basicdata.married || <span className="text-danger">{errors.married}</span>}</td>
                   </tr>
                   <tr>
                     <th>Profile</th>
-                    <td>{basicdata.profilestatus}</td>
+                    <td>{basicdata.profilestatus || <span className="text-danger">{errors.profilestatus}</span>}</td>
                   </tr>
                   <tr>
                     <th colSpan={2}>
                       <b>About</b>
                     </th>
-                    <td>{basicdata.about}</td>
+                    <td>{basicdata.about || <span className="text-danger">{errors.about}</span>}</td>
                   </tr>
                 </tbody>
               </table>
@@ -111,23 +179,23 @@ const FinalPreview = () => {
                 <tbody>
                   <tr>
                     <th>Mobile</th>
-                    <td>{contactdata.mobile}</td>
+                    <td>{contactdata.mobile || <span className="text-danger">{errors.mobile}</span>} </td>
                   </tr>
                   <tr>
                     <th>Email</th>
-                    <td>{contactdata.email}</td>
+                    <td>{contactdata.email || <span className="text-danger">{errors.email}</span>}</td>
                   </tr>
                   <tr>
                     <th>Local Address</th>
-                    <td>{contactdata.locaddress}</td>
+                    <td>{contactdata.locaddress || <span className="text-danger">{errors.locaddress}</span>}</td>
                   </tr>
                   <tr>
                     <th>Permanent Address</th>
-                    <td>{contactdata.permaddress}</td>
+                    <td>{contactdata.permaddress || <span className="text-danger">{errors.permaddress}</span>}</td>
                   </tr>
                   <tr>
                     <th>Reference Address</th>
-                    <th>{contactdata.refaddress}</th>
+                    <td>{contactdata.refaddress || <span className="text-danger">{errors.refaddress}</span>}</td>
                   </tr>
                 </tbody>
               </table>
@@ -147,23 +215,23 @@ const FinalPreview = () => {
                 <tbody>
                   <tr>
                     <th>Higher Education</th>
-                    <td>{educationdata.highestEducation}</td>
+                    <td>{educationdata.highestEducation || <span className="text-danger">{errors.highestEducation}</span>}</td>
                   </tr>
                   <tr>
                     <th>PAssing Year</th>
-                    <td>{educationdata.passingYear}</td>
+                    <td>{educationdata.passingYear || <span className="text-danger">{errors.passingYear}</span>}</td>
                   </tr>
                   <tr>
                     <th>Grade</th>
-                    <td>{educationdata.grade}</td>
+                    <td>{educationdata.grade || <span className="text-danger">{errors.grade}</span>}</td>
                   </tr>
                   <tr>
                     <th>College</th>
-                    <td>{educationdata.college}</td>
+                    <td>{educationdata.college || <span className="text-danger">{errors.college}</span>}</td>
                   </tr>
                   <tr>
                     <th>City</th>
-                    <td>{educationdata.city}</td>
+                    <td>{educationdata.city || <span className="text-danger">{errors.city}</span>}</td>
                   </tr>
                 </tbody>
               </table>
@@ -183,7 +251,7 @@ const FinalPreview = () => {
                 <tbody>
                   <tr>
                     <th>Skill</th>
-                    <td>{skilldata.skills}</td>
+                    <td>{skilldata.skills || <span className="text-danger">{errors.skills}</span>}</td>
                   </tr>
                 </tbody>
               </table>
@@ -203,19 +271,19 @@ const FinalPreview = () => {
                 <tbody>
                   <tr>
                     <th>projects</th>
-                    <td>{projectdata.projects}</td>
+                    <td>{projectdata.projects || <span className="text-danger">{errors.projects}</span>}</td>
                   </tr>
                   <tr>
                     <th>Project Details</th>
-                    <td>{projectdata.projectDetails}</td>
+                    <td>{projectdata.projectDetails || <span className="text-danger">{errors.projectDetails}</span>}</td>
                   </tr>
                   <tr>
                     <th>Technology</th>
-                    <td>{projectdata.technology}</td>
+                    <td>{projectdata.technology || <span className="text-danger">{errors.technology}</span>}</td>
                   </tr>
                   <tr>
                     <th>Live URL</th>
-                    <td>{projectdata.liveUrl}</td>
+                    <td>{projectdata.liveUrl || <span className="text-danger">{errors.liveUrl}</span>}</td>
                   </tr>
                 </tbody>
               </table>
@@ -235,11 +303,11 @@ const FinalPreview = () => {
                 <tbody>
                   <tr>
                     <th>totalExperience</th>
-                    <td>{experiencedata.totalExperience}</td>
+                    <td>{experiencedata.totalExperience || <span className="text-danger">{errors.totalExperience}</span>}</td>
                   </tr>
                   <tr>
                     <th>Experience details</th>
-                    <td>{experiencedata.aboutExperience}</td>
+                    <td>{experiencedata.aboutExperience || <span className="text-danger">{errors.aboutExperience}</span>}</td>
                   </tr>
                 </tbody>
               </table>
